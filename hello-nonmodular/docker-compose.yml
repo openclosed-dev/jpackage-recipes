@@ -1,0 +1,6 @@
+services:
+  deb-builder:
+    build: .
+    image: jpackage:21.0.6_7-jdk-noble
+    volumes:
+      - './target:/home/ubuntu/target'
