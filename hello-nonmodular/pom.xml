@@ -51,12 +51,6 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <outputDirectory>${jars.directory}</outputDirectory>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.example.DemoApplication</mainClass>
-                        </manifest>
-                    </archive>
                 </configuration>
             </plugin>
         </plugins>
