@@ -1,6 +1,8 @@
 services:
   deb-builder:
-    build: .
-    image: jpackage:hello-nonmodular
+    build:
+      context: .
+      dockerfile: Dockerfile-ubuntu
+    image: jpackage:hello-nonmodular-ubuntu
     volumes:
       - '.:/home/ubuntu/project'
