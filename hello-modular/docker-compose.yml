@@ -1,6 +1,6 @@
 services:
   deb-builder:
     build: .
-    image: jpackage:21.0.6_7-jdk-noble
+    image: jpackage:hello-modular
     volumes:
-      - './target:/home/ubuntu/target'
+      - '.:/home/ubuntu/project'

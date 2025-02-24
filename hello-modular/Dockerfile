@@ -1,12 +1,12 @@
 FROM eclipse-temurin:21.0.6_7-jdk-noble
 
-RUN apt-get update && apt install -y make fakeroot
+RUN apt-get update && apt install -y dpkg-dev fakeroot make
 
 USER ubuntu:ubuntu
-WORKDIR /home/ubuntu
 
-RUN mkdir -p /home/ubuntu/target
+RUN mkdir -p /home/ubuntu/project
+WORKDIR /home/ubuntu/project
 
-COPY --chown=ubuntu:ubuntu ./Makefile /home/ubuntu
+COPY --chown=ubuntu:ubuntu ./Makefile /home/ubuntu/project
 
-CMD [ "make", "all" ]
+CMD [ "make", "deb" ]
