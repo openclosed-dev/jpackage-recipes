@@ -15,6 +15,9 @@ jars := $(shell find $(jars_dir) -name '*.jar')
 main_jar := hello-nonmodular-1.0.0.jar
 main_class := org.example.DemoApplication
 
+resource_dir := src/jpackage/resources/linux
+resource_files := $(shell find $(resource_dir) -type f)
+
 package_arch := $(shell dpkg-architecture -q DEB_BUILD_ARCH)
 deb_file := $(dest_dir)/$(app_name)_$(app_version)_$(package_arch).deb
 
@@ -32,13 +35,14 @@ $(app_file): $(jars)
 	--main-jar $(main_jar) \
 	--main-class $(main_class)
 
-$(deb_file): $(app_file)
+$(deb_file): $(app_file) $(resource_files)
 	jpackage --verbose \
 	--type deb \
 	--dest $(dest_dir) \
 	--app-image $(app_dir) \
 	--name $(app_name) \
-	--app-version $(app_version)
+	--app-version $(app_version) \
+	--resource-dir $(resource_dir)
 
 clean:
 	@rm -rf $(app_dir)

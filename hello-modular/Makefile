@@ -18,6 +18,9 @@ runtime_file := $(runtime_dir)/release
 main_module := org.example.hello
 main_class := org.example.DemoApplication
 
+resource_dir := src/jpackage/resources/linux
+resource_files := $(shell find $(resource_dir) -type f)
+
 package_arch := $(shell dpkg-architecture -q DEB_BUILD_ARCH)
 deb_file := $(dest_dir)/$(app_name)_$(app_version)_$(package_arch).deb
 
@@ -49,7 +52,8 @@ $(deb_file): $(app_file)
 	--dest $(dest_dir) \
 	--app-image $(app_dir) \
 	--name $(app_name) \
-	--app-version $(app_version)
+	--app-version $(app_version) \
+	--resource-dir $(resource_dir)
 
 clean:
 	@rm -rf $(runtime_dir)
