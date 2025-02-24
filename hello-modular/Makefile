@@ -1,3 +1,6 @@
+.PHONY: clean link app deb
+.DEFAULT_GOAL := deb
+
 app_name := hello-modular
 app_version := 1.0.0
 
@@ -15,13 +18,12 @@ runtime_file := $(runtime_dir)/release
 main_module := org.example.hello
 main_class := org.example.DemoApplication
 
-package_type := deb
 package_arch := $(shell dpkg-architecture -q DEB_BUILD_ARCH)
-package_file := $(dest_dir)/$(app_name)_$(app_version)_$(package_arch).$(package_type)
+deb_file := $(dest_dir)/$(app_name)_$(app_version)_$(package_arch).deb
 
-.PHONY: all clean
-
-all: $(package_file)
+link: $(runtime_file)
+app: $(app_file)
+deb: $(deb_file)
 
 $(runtime_file):
 	@rm -rf $(runtime_dir)
@@ -41,9 +43,9 @@ $(app_file): $(runtime_file) $(jars)
 	--module-path $(jars_dir) \
 	--module $(main_module)/$(main_class)
 
-$(package_file): $(app_file)
+$(deb_file): $(app_file)
 	jpackage --verbose \
-	--type $(package_type) \
+	--type deb \
 	--dest $(dest_dir) \
 	--app-image $(app_dir) \
 	--name $(app_name) \
@@ -52,4 +54,4 @@ $(package_file): $(app_file)
 clean:
 	@rm -rf $(runtime_dir)
 	@rm -rf $(app_dir)
-	@rm -f $(package_file)
+	@rm -f $(deb_file)

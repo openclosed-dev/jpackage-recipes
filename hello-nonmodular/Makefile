@@ -1,3 +1,6 @@
+.PHONY: clean app deb
+.DEFAULT_GOAL := deb
+
 app_name := hello-nonmodular
 app_version := 1.0.0
 
@@ -12,13 +15,11 @@ jars := $(shell find $(jars_dir) -name '*.jar')
 main_jar := hello-nonmodular-1.0.0.jar
 main_class := org.example.DemoApplication
 
-package_type := deb
 package_arch := $(shell dpkg-architecture -q DEB_BUILD_ARCH)
-package_file := $(dest_dir)/$(app_name)_$(app_version)_$(package_arch).$(package_type)
+deb_file := $(dest_dir)/$(app_name)_$(app_version)_$(package_arch).deb
 
-.PHONY: all clean
-
-all: $(package_file)
+app: $(app_file)
+deb: $(deb_file)
 
 $(app_file): $(jars)
 	@rm -rf $(app_dir)
@@ -31,9 +32,9 @@ $(app_file): $(jars)
 	--main-jar $(main_jar) \
 	--main-class $(main_class)
 
-$(package_file): $(app_file)
+$(deb_file): $(app_file)
 	jpackage --verbose \
-	--type $(package_type) \
+	--type deb \
 	--dest $(dest_dir) \
 	--app-image $(app_dir) \
 	--name $(app_name) \
@@ -41,4 +42,4 @@ $(package_file): $(app_file)
 
 clean:
 	@rm -rf $(app_dir)
-	@rm -f $(package_file)
+	@rm -f $(deb_file)
