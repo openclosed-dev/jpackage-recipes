@@ -1,0 +1,13 @@
+FROM eclipse-temurin:21.0.6_7-jdk-ubi9-minimal
+
+RUN microdnf update && microdnf install -y findutils make rpm-build
+
+RUN useradd -m builder
+USER builder:builder
+
+RUN mkdir -p /home/builder/project
+WORKDIR /home/builder/project
+
+COPY --chown=builder:builder ./Makefile /home/builder/project
+
+CMD [ "make", "rpm" ]

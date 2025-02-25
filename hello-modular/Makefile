@@ -1,8 +1,9 @@
-.PHONY: clean link app deb
+.PHONY: clean link app deb rpm
 .DEFAULT_GOAL := deb
 
 app_name := hello-modular
 app_version := 1.0.0
+app_release := 1
 
 dest_dir := target
 
@@ -21,12 +22,20 @@ main_class := org.example.DemoApplication
 resource_dir := src/jpackage/resources/linux
 resource_files := $(shell find $(resource_dir) -type f)
 
-package_arch := $(shell dpkg-architecture -q DEB_BUILD_ARCH)
-deb_file := $(dest_dir)/$(app_name)_$(app_version)_$(package_arch).deb
+arch := $(shell uname -m)
+ifeq ($(arch),x86_64)
+    deb_arch := amd64
+else
+    deb_arch := $(arch)
+endif
+
+deb_file = $(dest_dir)/$(app_name)_$(app_version)_$(deb_arch).deb
+rpm_file = $(dest_dir)/$(app_name)-$(app_version)-$(app_release).$(arch).rpm
 
 link: $(runtime_file)
 app: $(app_file)
 deb: $(deb_file)
+rpm: $(rpm_file)
 
 $(runtime_file):
 	@rm -rf $(runtime_dir)
@@ -35,7 +44,7 @@ $(runtime_file):
 	--strip-native-commands --strip-debug --no-man-pages --no-header-files \
 	--output $(runtime_dir)
 
-$(app_file): $(runtime_file) $(jars)
+$(app_file): $(jars) $(runtime_file)
 	@rm -rf $(app_dir)
 	jpackage --verbose \
 	--type app-image \
@@ -46,7 +55,7 @@ $(app_file): $(runtime_file) $(jars)
 	--module-path $(jars_dir) \
 	--module $(main_module)/$(main_class)
 
-$(deb_file): $(app_file)
+$(deb_file): $(app_file) $(resource_files)
 	jpackage --verbose \
 	--type deb \
 	--dest $(dest_dir) \
@@ -55,7 +64,16 @@ $(deb_file): $(app_file)
 	--app-version $(app_version) \
 	--resource-dir $(resource_dir)
 
+$(rpm_file): $(app_file)
+	jpackage --verbose \
+	--type rpm \
+	--dest $(dest_dir) \
+	--app-image $(app_dir) \
+	--name $(app_name) \
+	--app-version $(app_version) \
+
 clean:
 	@rm -rf $(runtime_dir)
 	@rm -rf $(app_dir)
 	@rm -f $(deb_file)
+	@rm -f $(rpm_file)
