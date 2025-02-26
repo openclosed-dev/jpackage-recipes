@@ -7,6 +7,4 @@ USER ubuntu:ubuntu
 RUN mkdir -p /home/ubuntu/project
 WORKDIR /home/ubuntu/project
 
-COPY --chown=ubuntu:ubuntu ./Makefile /home/ubuntu/project
-
 CMD [ "make", "deb" ]

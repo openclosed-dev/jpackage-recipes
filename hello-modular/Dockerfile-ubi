@@ -8,6 +8,4 @@ USER builder:builder
 RUN mkdir -p /home/builder/project
 WORKDIR /home/builder/project
 
-COPY --chown=builder:builder ./Makefile /home/builder/project
-
 CMD [ "make", "rpm" ]
