@@ -1,4 +1,4 @@
-# hello-nonmodular
+# jpkg-nonmodular
 
 Package a non-modular application.
 

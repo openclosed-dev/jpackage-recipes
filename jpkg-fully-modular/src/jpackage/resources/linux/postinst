@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ln -s /opt/jpkg-fully-modular/bin/jpkg-fully-modular /usr/bin/jpkg-fully-modular
+exit 0

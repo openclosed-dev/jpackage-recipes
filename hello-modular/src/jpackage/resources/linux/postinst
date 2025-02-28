@@ -1,4 +1,0 @@
-#!/bin/sh
-
-ln -s /opt/hello-modular/bin/hello-modular /usr/bin/hello-modular
-exit 0

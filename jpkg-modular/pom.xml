@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>org.example</groupId>
-    <artifactId>hello-nonmodular</artifactId>
+    <artifactId>jpkg-modular</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 

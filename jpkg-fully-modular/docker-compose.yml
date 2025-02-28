@@ -3,13 +3,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-ubuntu
-    image: jpackage:hello-modular-ubuntu
+    image: jpackage:fully-modular-ubuntu
     volumes:
       - '.:/home/ubuntu/project'
   rpm-builder:
     build:
       context: .
       dockerfile: Dockerfile-ubi
-    image: jpackage:hello-modular-ubi
+    image: jpackage:fully-modular-ubi
     volumes:
       - '.:/home/builder/project'

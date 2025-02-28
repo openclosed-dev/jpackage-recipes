@@ -1,4 +1,0 @@
-#!/bin/sh
-
-ln -s /opt/hello-nonmodular/bin/hello-nonmodular /usr/bin/hello-nonmodular
-exit 0

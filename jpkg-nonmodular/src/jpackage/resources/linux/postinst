@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ln -s /opt/jpkg-nonmodular/bin/jpkg-nonmodular /usr/bin/jpkg-nonmodular
+exit 0
