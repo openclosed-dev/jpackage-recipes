@@ -41,7 +41,7 @@ $(runtime_file):
 	@rm -rf $(runtime_dir)
 	jlink --verbose \
 	--module-path $(JAVA_HOME)/jmods:$(jars_dir) \
-	--add-modules org.example.hello,ch.qos.logback.classic,ch.qos.logback.core \
+	--add-modules org.example.hello,ch.qos.logback.classic \
 	--strip-native-commands --strip-debug --no-man-pages --no-header-files \
 	--output $(runtime_dir)
 
