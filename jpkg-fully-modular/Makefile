@@ -37,15 +37,15 @@ app: $(app_file)
 deb: $(deb_file)
 rpm: $(rpm_file)
 
-$(runtime_file):
+$(runtime_file): $(jars)
 	@rm -rf $(runtime_dir)
 	jlink --verbose \
 	--module-path $(JAVA_HOME)/jmods:$(jars_dir) \
-	--add-modules org.example.hello,ch.qos.logback.classic \
+	--add-modules $(main_module),ch.qos.logback.classic \
 	--strip-native-commands --strip-debug --no-man-pages --no-header-files \
 	--output $(runtime_dir)
 
-$(app_file): $(jars) $(runtime_file)
+$(app_file): $(runtime_file)
 	@rm -rf $(app_dir)
 	jpackage --verbose \
 	--type app-image \
